@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Already have an account?" : {
+
+    },
     "Appearance" : {
       "localizations" : {
         "es" : {
@@ -29,6 +32,12 @@
         }
       }
     },
+    "Check your inbox." : {
+
+    },
+    "Confirm" : {
+
+    },
     "Dark" : {
       "localizations" : {
         "es" : {
@@ -56,6 +65,12 @@
           }
         }
       }
+    },
+    "Email" : {
+
+    },
+    "Full name" : {
+
     },
     "Hello %@!" : {
       "localizations" : {
@@ -169,7 +184,11 @@
         }
       }
     },
+    "Logged in as: %@" : {
+
+    },
     "Name" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -197,7 +216,14 @@
         }
       }
     },
+    "New user?" : {
+
+    },
+    "Password" : {
+
+    },
     "Powered by %@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -224,6 +250,9 @@
           }
         }
       }
+    },
+    "Profile" : {
+
     },
     "Screen %lld" : {
       "localizations" : {
@@ -281,6 +310,24 @@
         }
       }
     },
+    "Sign in" : {
+
+    },
+    "Sign In" : {
+
+    },
+    "Sign out" : {
+
+    },
+    "Sign Out" : {
+
+    },
+    "Sign up" : {
+
+    },
+    "Sign Up" : {
+
+    },
     "System" : {
       "localizations" : {
         "es" : {
@@ -308,6 +355,15 @@
           }
         }
       }
+    },
+    "Update profile" : {
+
+    },
+    "Username" : {
+
+    },
+    "Website" : {
+
     },
     "Welcome" : {
       "localizations" : {

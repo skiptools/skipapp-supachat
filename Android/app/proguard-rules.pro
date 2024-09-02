@@ -1,2 +1,3 @@
 -keep class skip.** { *; }
 -keep class supa.todo.** { *; }
+-dontwarn org.slf4j.impl.StaticLoggerBinder
