@@ -140,7 +140,7 @@ struct AuthView: View {
                     #if !SKIP
                     .textContentType(.emailAddress)
                     #endif
-                    .textInputAutocapitalization(.never)
+                    //.textInputAutocapitalization(.never)
                     .autocorrectionDisabled()
                 SecureField("Password", text: $password)
                 if signUp {
