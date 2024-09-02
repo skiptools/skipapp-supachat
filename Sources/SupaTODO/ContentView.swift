@@ -137,11 +137,11 @@ struct AuthView: View {
         VStack {
             Form {
                 TextField("Email", text: $email)
+                    .autocorrectionDisabled()
                     #if !SKIP
-                    .textContentType(.emailAddress)
+                    //.textContentType(.emailAddress)
                     #endif
                     //.textInputAutocapitalization(.never)
-                    .autocorrectionDisabled()
                 SecureField("Password", text: $password)
                 if signUp {
                     SecureField("Confirm", text: $password2)
@@ -252,18 +252,18 @@ struct ProfileView: View {
                 Section {
                     TextField("Username", text: $username)
                         #if !SKIP
-                        .textContentType(.username)
+                        //.textContentType(.username)
                         #endif
-                        .textInputAutocapitalization(.never)
+                        //.textInputAutocapitalization(.never)
                     TextField("Full name", text: $fullName)
                         #if !SKIP
-                        .textContentType(.name)
+                        //.textContentType(.name)
                         #endif
                     TextField("Website", text: $website)
                         #if !SKIP
-                        .textContentType(.URL)
+                        //.textContentType(.URL)
                         #endif
-                        .textInputAutocapitalization(.never)
+                        //.textInputAutocapitalization(.never)
                 }
 
                 Section {
