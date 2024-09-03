@@ -257,8 +257,8 @@ struct ProfileView: View {
                         #if !SKIP
                         .textContentType(.username)
                         #endif
-                        #endif
                         .textInputAutocapitalization(.never)
+                        #endif
                     TextField("Full name", text: $fullName)
                         #if !os(macOS)
                         #if !SKIP
