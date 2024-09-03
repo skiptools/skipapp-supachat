@@ -137,11 +137,13 @@ struct AuthView: View {
         VStack {
             Form {
                 TextField("Email", text: $email)
-                    .autocorrectionDisabled()
+                    #if !os(macOS)
                     #if !SKIP
-                    //.textContentType(.emailAddress)
+                    .textContentType(.emailAddress)
                     #endif
-                    //.textInputAutocapitalization(.never)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                    #endif
                 SecureField("Password", text: $password)
                 if signUp {
                     SecureField("Confirm", text: $password2)
@@ -251,19 +253,25 @@ struct ProfileView: View {
             Form {
                 Section {
                     TextField("Username", text: $username)
+                        #if !os(macOS)
                         #if !SKIP
-                        //.textContentType(.username)
+                        .textContentType(.username)
                         #endif
-                        //.textInputAutocapitalization(.never)
+                        #endif
+                        .textInputAutocapitalization(.never)
                     TextField("Full name", text: $fullName)
+                        #if !os(macOS)
                         #if !SKIP
-                        //.textContentType(.name)
+                        .textContentType(.name)
+                        #endif
                         #endif
                     TextField("Website", text: $website)
+                        #if !os(macOS)
                         #if !SKIP
-                        //.textContentType(.URL)
+                        .textContentType(.URL)
                         #endif
-                        //.textInputAutocapitalization(.never)
+                        .textInputAutocapitalization(.never)
+                        #endif
                 }
 
                 Section {
@@ -279,6 +287,7 @@ struct ProfileView: View {
             }
             .navigationTitle("Profile")
             .toolbar(content: {
+                #if !os(macOS)
                 ToolbarItem(placement: .topBarLeading){
                     Button("Sign out", role: .destructive) {
                         Task {
@@ -286,6 +295,7 @@ struct ProfileView: View {
                         }
                     }
                 }
+                #endif
             })
         }
         .task {
