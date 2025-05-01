@@ -1,7 +1,0 @@
--keep class skip.** { *; }
--keep class tools.skip.** { *; }
--keep class kotlin.jvm.functions.** {*;}
--keep class com.sun.jna.** { *; }
--keep class * implements com.sun.jna.** { *; }
--keep class supa.todo.** { *; }
--dontwarn org.slf4j.impl.StaticLoggerBinder
