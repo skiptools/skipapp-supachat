@@ -1,4 +1,4 @@
-name: skipapp-supatodo
+name: skipapp-supachat
 on:
   push:
     branches: '*'
