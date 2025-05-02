@@ -35,6 +35,32 @@ let logger: Logger = Logger(subsystem: "supachat.model", category: "SupachatMode
             .execute()
             .value
     }
+
+    public func monitorMessages() async {
+        await refreshMessages()
+
+        let channel = client.channel("monitorMessagesChannel")
+        let changeStream = channel.postgresChange(
+            AnyAction.self,
+            schema: "public",
+            table: "message"
+        )
+
+        logger.info("subscribe to channel: \(channel.status.hashValue)")
+        await channel.subscribe()
+        for await change in changeStream {
+            logger.info("channel update: \(change.rawMessage.topic)")
+            switch change {
+            case .delete(let action): logger.info("channel row deleted: \(action.oldRecord)")
+            case .insert(let action): logger.info("channel row inserted: \(action.record)")
+            case .update(let action): logger.info("channel row updated: \(action.oldRecord) with \(action.record)")
+            }
+
+            // we naively just refresh all messages whenever there is any change — we should instead match the record and update the local data
+            await refreshMessages()
+        }
+        logger.info("channel subscribe ended")
+    }
 }
 
 public struct Message: Identifiable, Codable, Hashable,Sendable {
@@ -65,21 +91,23 @@ fileprivate let client = SupabaseClient(
 ///
 /// Data is stored in base64-encoded string values.
 struct SkipKeychainAuthLocalStorage : AuthLocalStorage {
+    var keyPrefix = "supabase-"
+
     func store(key: String, value: Data) throws {
-        logger.info("SimpleAuthLocalStorage: store key: \(key)")
-        try Keychain.shared.set(value.base64EncodedString(), forKey: key)
+        logger.info("AuthLocalStorage: store key: \(keyPrefix)\(key)")
+        try Keychain.shared.set(value.base64EncodedString(), forKey: keyPrefix + key)
     }
 
     func retrieve(key: String) throws -> Data? {
-        logger.info("SimpleAuthLocalStorage: retrieve key: \(key)")
-        guard let value = try Keychain.shared.string(forKey: key) else {
+        logger.info("AuthLocalStorage: retrieve key: \(keyPrefix)\(key)")
+        guard let value = try Keychain.shared.string(forKey: keyPrefix + key) else {
             return nil
         }
         return Data(base64Encoded: value)
     }
 
     func remove(key: String) throws {
-        logger.info("SimpleAuthLocalStorage: remove key: \(key)")
-        try Keychain.shared.removeValue(forKey: key)
+        logger.info("AuthLocalStorage: remove key: \(keyPrefix)\(key)")
+        try Keychain.shared.removeValue(forKey: keyPrefix + key)
     }
 }

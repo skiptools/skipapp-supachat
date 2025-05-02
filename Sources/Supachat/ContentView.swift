@@ -53,10 +53,10 @@ struct MessageListView : View {
                 }
             }
         }
-        .refreshable {
-            await viewModel.refreshMessages()
-        }
         .task {
+            await viewModel.monitorMessages()
+        }
+        .refreshable {
             await viewModel.refreshMessages()
         }
         .navigationDestination(for: Message.self) { msg in
