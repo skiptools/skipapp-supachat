@@ -2,32 +2,31 @@ import SkipFuseUI
 import SupachatModel
 
 enum ContentTab: String, Hashable {
-    case welcome, home, settings
+    case messages, settings
 }
 
-struct ContentView: View {
-    @AppStorage("tab") var tab = ContentTab.welcome
-    @AppStorage("name") var welcomeName = "Skipper"
+@MainActor struct ContentView: View {
+    @AppStorage("tab") var tab = ContentTab.messages
     @AppStorage("appearance") var appearance = ""
     @State var viewModel = ViewModel()
 
     var body: some View {
         TabView(selection: $tab) {
             NavigationStack {
-                WelcomeView(welcomeName: $welcomeName)
+                if viewModel.username.isEmpty {
+                    Text("Set account name in Settings")
+                        .font(.title)
+                        .foregroundStyle(.secondary)
+                } else {
+                    MessageListView()
+                        .navigationTitle(Text("\(viewModel.messages.count) Messages"))
+                }
             }
-            .tabItem { Label("Welcome", systemImage: "heart.fill") }
-            .tag(ContentTab.welcome)
+            .tabItem { Label("Messages", systemImage: "list.bullet") }
+            .tag(ContentTab.messages)
 
             NavigationStack {
-                ItemListView()
-                    .navigationTitle(Text("\(viewModel.items.count) Items"))
-            }
-            .tabItem { Label("Home", systemImage: "house.fill") }
-            .tag(ContentTab.home)
-
-            NavigationStack {
-                SettingsView(appearance: $appearance, welcomeName: $welcomeName)
+                SettingsView(appearance: $appearance)
                     .navigationTitle("Settings")
             }
             .tabItem { Label("Settings", systemImage: "gearshape.fill") }
@@ -38,106 +37,67 @@ struct ContentView: View {
     }
 }
 
-struct WelcomeView : View {
-    @State var heartBeating = false
-    @Binding var welcomeName: String
-
-    var body: some View {
-        VStack(spacing: 0) {
-            Text("Hello [\(welcomeName)](https://skip.tools)!")
-                .padding()
-            Image(systemName: "heart.fill")
-                .foregroundStyle(.red)
-                .scaleEffect(heartBeating ? 1.5 : 1.0)
-                .animation(.easeInOut(duration: 1).repeatForever(), value: heartBeating)
-                .onAppear { heartBeating = true }
-        }
-        .font(.largeTitle)
-    }
-}
-
-struct ItemListView : View {
+struct MessageListView : View {
     @Environment(ViewModel.self) var viewModel: ViewModel
 
     var body: some View {
         List {
-            ForEach(viewModel.items) { item in
+            ForEach(viewModel.messages) { item in
                 NavigationLink(value: item) {
                     Label {
-                        Text(item.itemTitle)
+                        Text("\(item.sender) -> \(item.recipient): \(item.message)")
                     } icon: {
-                        if item.favorite {
-                            Image(systemName: "star.fill")
-                                .foregroundStyle(.yellow)
-                        }
+                        // the icon indicates if a message was sent or received
+                        Image(systemName: item.sender == viewModel.username ? "chevron.left" : "chevron.right")
                     }
                 }
             }
-            .onDelete { offsets in
-                viewModel.items.remove(atOffsets: offsets)
-            }
-            .onMove { fromOffsets, toOffset in
-                viewModel.items.move(fromOffsets: fromOffsets, toOffset: toOffset)
-            }
         }
-        .navigationDestination(for: Item.self) { item in
-            ItemView(item: item)
-                .navigationTitle(item.itemTitle)
+        .refreshable {
+            await viewModel.refreshMessages()
         }
-        .toolbar {
-            ToolbarItemGroup {
-                Button {
-                    withAnimation {
-                        viewModel.items.insert(Item(), at: 0)
-                    }
-                } label: {
-                    Label("Add", systemImage: "plus")
-                }
-            }
+        .task {
+            await viewModel.refreshMessages()
         }
+        .navigationDestination(for: Message.self) { msg in
+            MessageView(message: msg)
+        }
+//        .toolbar {
+//            ToolbarItemGroup {
+//                Button {
+//                    withAnimation {
+//                        viewModel.items.insert(Item(), at: 0)
+//                    }
+//                } label: {
+//                    Label("Add", systemImage: "plus")
+//                }
+//            }
+//        }
     }
 }
 
-struct ItemView : View {
-    @State var item: Item
+struct MessageView : View {
+    @State var message: Message
     @Environment(ViewModel.self) var viewModel: ViewModel
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
         Form {
-            TextField("Title", text: $item.title)
-                .textFieldStyle(.roundedBorder)
-            Toggle("Favorite", isOn: $item.favorite)
-            DatePicker("Date", selection: $item.date)
-            Text("Notes").font(.title3)
-            TextEditor(text: $item.notes)
-                .border(Color.secondary, width: 1.0)
-        }
-        .navigationBarBackButtonHidden()
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button("Cancel") {
-                    dismiss()
-                }
-            }
-            ToolbarItem(placement: .confirmationAction) {
-                Button("Save") {
-                    viewModel.save(item: item)
-                    dismiss()
-                }
-                .disabled(!viewModel.isUpdated(item))
-            }
+            Text("Message: \(message.message)").font(.title3)
         }
     }
 }
 
 struct SettingsView : View {
     @Binding var appearance: String
-    @Binding var welcomeName: String
+    @Environment(ViewModel.self) var viewModel: ViewModel
 
     var body: some View {
+        let viewModel = Bindable(wrappedValue: viewModel)
+
         Form {
-            TextField("Name", text: $welcomeName)
+            TextField("Account Name", text: viewModel.username)
+
             Picker("Appearance", selection: $appearance) {
                 Text("System").tag("")
                 Text("Light").tag("light")

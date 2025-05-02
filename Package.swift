@@ -27,5 +27,6 @@ let package = Package(
             .product(name: "SkipFuse", package: "skip-fuse"),
             .product(name: "Supabase", package: "supabase-swift")
         ], plugins: [.plugin(name: "skipstone", package: "skip")]),
-    ]
+    ],
+    swiftLanguageModes: [.v5]
 )

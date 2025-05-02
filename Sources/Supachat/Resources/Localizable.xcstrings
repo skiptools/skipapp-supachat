@@ -1,8 +1,19 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ -> %@: %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ -> %2$@: %3$@"
+          }
+        }
+      }
+    },
     "%lld Items" : {
       "comment" : "Header title for a list that contains the number of items",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -30,8 +41,15 @@
         }
       }
     },
+    "%lld Messages" : {
+
+    },
+    "Account Name" : {
+
+    },
     "Add" : {
       "comment" : "Button in items list that will cause a new item to be added",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -90,6 +108,7 @@
     },
     "Cancel" : {
       "comment" : "Button title indicating that the operation should be cancelled",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -148,6 +167,7 @@
     },
     "Date" : {
       "comment" : "Item editor form label for the Date field",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -177,6 +197,7 @@
     },
     "Favorite" : {
       "comment" : "Item editor title label for marking the item as a favorite",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -206,6 +227,7 @@
     },
     "Hello [%@](https://skip.tools)!" : {
       "comment" : "Welcome tab contents",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -235,6 +257,7 @@
     },
     "Home" : {
       "comment" : "Tab bar item title for the Home tab",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -291,8 +314,15 @@
         }
       }
     },
+    "Message: %@" : {
+
+    },
+    "Messages" : {
+
+    },
     "Name" : {
       "comment" : "Placeholder title for the Name field in a form",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -322,6 +352,7 @@
     },
     "Notes" : {
       "comment" : "Item editor form label for the Notes field",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -380,6 +411,7 @@
     },
     "Save" : {
       "comment" : "Button title indicating that the current contents should be saved",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -406,6 +438,9 @@
           }
         }
       }
+    },
+    "Set account name in Settings" : {
+
     },
     "Settings" : {
       "comment" : "Tab bar item title for the Settings tab",
@@ -467,6 +502,7 @@
     },
     "Title" : {
       "comment" : "Label for the item editor form indicating the title of the item",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -531,6 +567,7 @@
     },
     "Welcome" : {
       "comment" : "Tab bar item title for the Welcome tab",
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
