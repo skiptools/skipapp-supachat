@@ -53,7 +53,7 @@ struct MessageListView : View {
                 }
             }
         }
-        .task {
+        .task(id: viewModel.username) {
             await viewModel.monitorMessages()
         }
         .refreshable {

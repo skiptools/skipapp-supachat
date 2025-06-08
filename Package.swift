@@ -21,12 +21,12 @@ let package = Package(
         .target(name: "Supachat", dependencies: [
             "SupachatModel",
             .product(name: "SkipFuseUI", package: "skip-fuse-ui")
-        ], plugins: [.plugin(name: "skipstone", package: "skip")]),
+        ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),
         .target(name: "SupachatModel", dependencies: [
             .product(name: "SkipKeychain", package: "skip-keychain"),
             .product(name: "SkipFuse", package: "skip-fuse"),
             .product(name: "Supabase", package: "supabase-swift")
-        ], plugins: [.plugin(name: "skipstone", package: "skip")]),
+        ], resources: [.process("Resources")], plugins: [.plugin(name: "skipstone", package: "skip")]),
     ],
     swiftLanguageModes: [.v5]
 )

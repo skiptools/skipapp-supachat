@@ -10,6 +10,8 @@ let logger: Logger = Logger(subsystem: "supachat.model", category: "SupachatMode
 /// The Observable ViewModel used by the application.
 @Observable @MainActor public class ViewModel {
     public var messages: [Message] = []
+    private let channel = client.channel("monitorMessagesChannel")
+
     /// The username, which is persisted to the UserDefaults
     public var username: String = UserDefaults.standard.string(forKey: "username") ?? "" {
         didSet { UserDefaults.standard.set(username, forKey: "username") }
@@ -19,8 +21,14 @@ let logger: Logger = Logger(subsystem: "supachat.model", category: "SupachatMode
     }
 
     public func refreshMessages() async {
+        logger.info("refreshMessages")
         do {
-            messages = try await fetchMessages(username: username)
+            let msgs = try await fetchMessages(username: username)
+            //Task { @MainActor in
+            logger.info("retrieved messages: \(msgs)")
+            DispatchQueue.main.async {
+                self.messages = msgs
+            }
         } catch {
             logger.error("error refreshing messages: \(error)")
         }
@@ -39,14 +47,13 @@ let logger: Logger = Logger(subsystem: "supachat.model", category: "SupachatMode
     public func monitorMessages() async {
         await refreshMessages()
 
-        let channel = client.channel("monitorMessagesChannel")
         let changeStream = channel.postgresChange(
             AnyAction.self,
             schema: "public",
             table: "message"
         )
 
-        logger.info("subscribe to channel: \(channel.status.hashValue)")
+        logger.info("subscribe to channel")
         await channel.subscribe()
         for await change in changeStream {
             logger.info("channel update: \(change.rawMessage.topic)")
@@ -94,12 +101,12 @@ struct SkipKeychainAuthLocalStorage : AuthLocalStorage {
     var keyPrefix = "supabase-"
 
     func store(key: String, value: Data) throws {
-        logger.info("AuthLocalStorage: store key: \(keyPrefix)\(key)")
+        logger.trace("AuthLocalStorage: store key: \(keyPrefix)\(key)")
         try Keychain.shared.set(value.base64EncodedString(), forKey: keyPrefix + key)
     }
 
     func retrieve(key: String) throws -> Data? {
-        logger.info("AuthLocalStorage: retrieve key: \(keyPrefix)\(key)")
+        logger.trace("AuthLocalStorage: retrieve key: \(keyPrefix)\(key)")
         guard let value = try Keychain.shared.string(forKey: keyPrefix + key) else {
             return nil
         }
@@ -107,7 +114,7 @@ struct SkipKeychainAuthLocalStorage : AuthLocalStorage {
     }
 
     func remove(key: String) throws {
-        logger.info("AuthLocalStorage: remove key: \(keyPrefix)\(key)")
+        logger.trace("AuthLocalStorage: remove key: \(keyPrefix)\(key)")
         try Keychain.shared.removeValue(forKey: keyPrefix + key)
     }
 }
