@@ -12,7 +12,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://source.skip.tools/skip.git", from: "1.5.6"),
-        .package(url: "https://source.skip.tools/skip-fuse-ui.git", "0.0.0"..<"2.0.0"),
+        .package(url: "https://source.skip.tools/skip-fuse-ui.git", from: "1.0.0"),
         .package(url: "https://source.skip.tools/skip-keychain.git", "0.0.0"..<"2.0.0"),
         .package(url: "https://source.skip.tools/skip-fuse.git", from: "1.0.0"),
         .package(url: "https://github.com/supabase/supabase-swift.git", from: "2.26.1")
