@@ -1,8 +1,8 @@
 import SwiftUI
-import HelloSkip
+import Supachat
 
-private typealias AppRootView = HelloSkipRootView
-private typealias AppDelegate = HelloSkipAppDelegate
+private typealias AppRootView = SupachatRootView
+private typealias AppDelegate = SupachatAppDelegate
 
 /// The entry point to the app simply loads the App implementation from SPM module.
 @main struct AppMain: App {
