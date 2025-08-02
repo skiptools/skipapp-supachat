@@ -1,5 +1,8 @@
 import SwiftUI
-import Supachat
+import HelloSkip
+
+private typealias AppRootView = HelloSkipRootView
+private typealias AppDelegate = HelloSkipAppDelegate
 
 /// The entry point to the app simply loads the App implementation from SPM module.
 @main struct AppMain: App {
@@ -8,7 +11,7 @@ import Supachat
 
     var body: some Scene {
         WindowGroup {
-            SupachatRootView()
+            AppRootView()
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             switch newPhase {
@@ -25,7 +28,6 @@ import Supachat
     }
 }
 
-typealias AppDelegate = SupachatAppDelegate
 #if canImport(UIKit)
 typealias AppDelegateAdaptor = UIApplicationDelegateAdaptor
 typealias AppMainDelegateBase = UIApplicationDelegate
@@ -36,7 +38,7 @@ typealias AppMainDelegateBase = NSApplicationDelegate
 typealias AppType = NSApplication
 #endif
 
-@MainActor class AppMainDelegate: NSObject, AppMainDelegateBase {
+class AppMainDelegate: NSObject, AppMainDelegateBase {
     let application = AppType.shared
 
     #if canImport(UIKit)
