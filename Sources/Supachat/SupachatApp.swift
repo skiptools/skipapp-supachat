@@ -8,8 +8,8 @@ let logger: Logger = Logger(subsystem: "skipapp.demo.supachat", category: "Supac
 /// The shared top-level view for the app, loaded from the platform-specific App delegates below.
 ///
 /// The default implementation merely loads the `ContentView` for the app and logs a message.
-/* SKIP @bridge */public struct SupachatRootView : View {
-    /* SKIP @bridge */public init() {
+public struct SupachatRootView : View {
+    public init() {
     }
 
     public var body: some View {
@@ -23,33 +23,37 @@ let logger: Logger = Logger(subsystem: "skipapp.demo.supachat", category: "Supac
 /// Global application delegate functions.
 ///
 /// These functions can update a shared observable object to communicate app state changes to interested views.
-/* SKIP @bridge */public final class SupachatAppDelegate : Sendable {
-    /* SKIP @bridge */public static let shared = SupachatAppDelegate()
+public final class SupachatAppDelegate : Sendable {
+    public static let shared = SupachatAppDelegate()
 
     private init() {
     }
 
-    /* SKIP @bridge */public func onStart() {
-        logger.debug("onStart")
+    public func onInit() {
+        logger.debug("onInit")
     }
 
-    /* SKIP @bridge */public func onResume() {
+    public func onLaunch() {
+        logger.debug("onLaunch")
+    }
+
+    public func onResume() {
         logger.debug("onResume")
     }
 
-    /* SKIP @bridge */public func onPause() {
+    public func onPause() {
         logger.debug("onPause")
     }
 
-    /* SKIP @bridge */public func onStop() {
+    public func onStop() {
         logger.debug("onStop")
     }
 
-    /* SKIP @bridge */public func onDestroy() {
+    public func onDestroy() {
         logger.debug("onDestroy")
     }
 
-    /* SKIP @bridge */public func onLowMemory() {
+    public func onLowMemory() {
         logger.debug("onLowMemory")
     }
 }
