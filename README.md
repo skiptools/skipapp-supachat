@@ -1,6 +1,6 @@
 # Supachat
 
-This is a [Skip](https://skip.tools) dual-platform app project.
+This is a [Skip](https://skip.dev) dual-platform app project.
 It is a Skip native sample app that uses the 
 [Supabase Swift API](https://supabase.com/docs/reference/swift)
 to create a toy chat app.
