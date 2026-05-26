@@ -109,7 +109,7 @@ struct SettingsView : View {
             }
             HStack {
                 PlatformHeartView()
-                Text("Powered by [Skip](https://skip.tools)")
+                Text("Powered by [Skip](https://skip.dev)")
             }
         }
     }

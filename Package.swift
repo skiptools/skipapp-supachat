@@ -1,5 +1,5 @@
-// swift-tools-version: 6.0
-// This is a Skip (https://skip.tools) package.
+// swift-tools-version: 6.1
+// This is a Skip (https://skip.dev) package.
 import PackageDescription
 
 let package = Package(
